@@ -23,6 +23,8 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
     PersonRepository personRepository;
 
     /**
@@ -106,6 +108,7 @@ public class UserController {
     public ResponseEntity<HttpStatus> deleteAllUsers() {
         try {
             userRepository.deleteAll();
+            personRepository.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
