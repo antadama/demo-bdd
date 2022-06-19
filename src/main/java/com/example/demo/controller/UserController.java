@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Post;
 import com.example.demo.model.User;
 import com.example.demo.model.Person;
 import com.example.demo.repository.UserRepository;
@@ -12,10 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 
 @CrossOrigin(origins = "http://localhost:8081")
@@ -56,15 +54,32 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/{login}")
-    public ResponseEntity<User> findByLogin(@PathVariable("login") String login ) {
+    @GetMapping("/user/login")
+    public ResponseEntity<User> findByLogin(@RequestBody User user ) {
 
-        Optional<User> userData = userRepository.findByLogin(login);
+        Optional<User> userData = userRepository.findByLogin(user.getLogin());
 
         if (userData.isPresent()) {
             return new ResponseEntity<>(userData.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @GetMapping("/user/description")
+    public ResponseEntity<List<User>> findByDescriptionContaining(@RequestBody User user ) {
+        try {
+
+            List<User> users = new ArrayList<User>();
+            userRepository.findByDescriptionContaining(user.getDescription()).forEach(users::add);
+
+            if (users.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(users, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
