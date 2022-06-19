@@ -19,6 +19,7 @@ public class User implements Serializable{
 	private String password;
 	private String description;
 	private String photo_link;
+	private Person person;
 
 
 	public User() {
@@ -86,10 +87,20 @@ public class User implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", login=" + login + ", profile picture=" + photo_link + "]";
 	}
+
 
 }
