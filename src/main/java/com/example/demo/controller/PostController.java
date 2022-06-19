@@ -19,7 +19,7 @@ public class PostController {
     @Autowired
     PostRepository postRepository;
 
-    @PostMapping("/users/{user_id}/post")
+    @PostMapping("/user/{user_id}/post")
     public ResponseEntity<Post> addPost(@RequestBody Post post, @PathVariable("user_id") String user_id) throws NullPointerException {
         try {
             Post _post = postRepository.save( new Post(user_id, post.getContent()) );
@@ -32,7 +32,7 @@ public class PostController {
 
 
 
-    @GetMapping("/users/{user_id}/post")
+    @GetMapping("/user/{user_id}/post")
     public ResponseEntity<List<Post>> findByUserId(@PathVariable("user_id") String user_id) {
         try {
             List<Post> posts = new ArrayList<Post>();
@@ -48,7 +48,7 @@ public class PostController {
     }
 
 
-    @DeleteMapping("/users/{user_id}/post")
+    @DeleteMapping("/user/{user_id}/post")
     public ResponseEntity<HttpStatus> deleteAllPosts(@PathVariable("user_id") String user_id) {
         try {
 
@@ -60,7 +60,7 @@ public class PostController {
         }
     }
 
-    @DeleteMapping("/users/{user_id}/post/{post_id}")
+    @DeleteMapping("/user/{user_id}/post/{post_id}")
     public ResponseEntity<HttpStatus> deletePost(@PathVariable("post_id") String post_id, @PathVariable String user_id) {
         try {
             postRepository.deleteById(post_id);

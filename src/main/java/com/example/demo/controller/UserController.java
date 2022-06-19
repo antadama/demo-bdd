@@ -30,7 +30,7 @@ public class UserController {
     /**
      * @return List of users
      */
-    @GetMapping("/users")
+    @GetMapping("/user")
     public ResponseEntity<Map<String, Object>> getAllUsersPage(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "30") int size) {
@@ -56,12 +56,25 @@ public class UserController {
         }
     }
 
+    @GetMapping("/user/{login}")
+    public ResponseEntity<User> findByLogin(@PathVariable("login") String login ) {
+
+        Optional<User> userData = userRepository.findByLogin(login);
+
+        if (userData.isPresent()) {
+            return new ResponseEntity<>(userData.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
 
     /**
      * @param user
      * @return user, HttpStatus
      */
-    @PostMapping("/users")
+    @PostMapping("/user")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         try {
             User _user = userRepository.save( new User(user.getName(), user.getLogin(), user.getPassword(), user.getDescription(), user.getPhoto_link() ) );
@@ -74,7 +87,7 @@ public class UserController {
     }
 
 
-    @DeleteMapping("/users")
+    @DeleteMapping("/user")
     public ResponseEntity<HttpStatus> deleteAllUsers() {
         try {
             userRepository.deleteAll();
@@ -90,7 +103,7 @@ public class UserController {
      * @param id
      * @return Map<String,Boolean>
      */
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/user/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") String id) {
         try {
             userRepository.deleteById(id);
