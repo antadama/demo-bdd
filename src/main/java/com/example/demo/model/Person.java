@@ -17,7 +17,6 @@ public class Person {
     private final String id;
 
     private String login;
-    private Set<Person> friends = new HashSet<>();
 
     @Relationship("FRIEND_WITH") // direction can be OUTGOING (default) or INCOMING
     private Friend friend;
@@ -34,22 +33,6 @@ public class Person {
 
     public String getLogin() {
         return login;
-    }
-
-    public Set<Person> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(Set<Person> friends) {
-        this.friends = friends;
-    }
-
-    public void addFriend(Person friend) {
-        this.friends.add(friend);
-    }
-
-    public void removeFriend(Person friend) {
-        this.friends.remove(friend);
     }
     
    
